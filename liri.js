@@ -76,3 +76,16 @@ request("https://rest.bandsintown.com/artists/" + search + "/events?app_id=codin
 
 
 }
+
+
+else if(command === "spotify-this-song") {
+
+    spotify.search({ type: 'track', query: search }, function(err, data) {
+        if (err) {
+          return console.log('Error occurred: ' + err);
+        }
+       
+      console.log(data); 
+      });
+
+}
