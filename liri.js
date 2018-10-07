@@ -80,12 +80,41 @@ request("https://rest.bandsintown.com/artists/" + search + "/events?app_id=codin
 
 else if(command === "spotify-this-song") {
 
+    if(search == null){
+        search = 'The-Sign' 
+    }
+    console.log(search);
+
     spotify.search({ type: 'track', query: search }, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
         }
-       
-      console.log(data); 
+      console.log(data);
+      for(var i = 0; i < data.tracks.items.length; i++){
+        //   console.log( data.tracks.items[i])
+          console.log("Artist: " + data.tracks.items[i].artists[0].name);
+          console.log("Name: " + data.tracks.items[i].name)
+
+      }
+        // console.log(data.tracks.items[0])
+        // console.log("Artist: " + data.tracks.items[0].artists[0].name);
+        // console.log("Name: " + data.tracks.items[0].name)
+        // console.log("Album: " + data.tracks.items[0].album.name);
+        // console.log("Spotify Link: " + data.tracks.items[0].external_urls.spotify)
+
+
+
       });
+
+     
+
+    // spotify
+    // .request('https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx')
+    // .then(function(data) {
+    //   console.log(data); 
+    // })
+    // .catch(function(err) {
+    //   console.error('Error occurred: ' + err); 
+    // });
 
 }
