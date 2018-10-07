@@ -80,41 +80,47 @@ request("https://rest.bandsintown.com/artists/" + search + "/events?app_id=codin
 
 else if(command === "spotify-this-song") {
 
-    if(search == null){
-        search = 'The-Sign' 
-    }
-    console.log(search);
 
-    spotify.search({ type: 'track', query: search }, function(err, data) {
+    if(search == null){
+        noSpecialCharSearch = 'the sign' 
+    }
+    else{
+        var noSpecialCharSearch = search.split(/[.\-_]/).join(" ").toLowerCase();
+    }
+    // console.log(noSpecialCharSearch);
+    var songList = [];
+
+    spotify.search({ type: 'track', query: noSpecialCharSearch }, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
         }
-      console.log(data);
+    //   console.log(data);
       for(var i = 0; i < data.tracks.items.length; i++){
-        //   console.log( data.tracks.items[i])
-          console.log("Artist: " + data.tracks.items[i].artists[0].name);
-          console.log("Name: " + data.tracks.items[i].name)
-
+          var songLowercase = data.tracks.items[i].name.toLowerCase();
+    
+            if(noSpecialCharSearch === songLowercase)
+            {
+                songList.push(data.tracks.items[i]);
+            }
       }
-        // console.log(data.tracks.items[0])
-        // console.log("Artist: " + data.tracks.items[0].artists[0].name);
-        // console.log("Name: " + data.tracks.items[0].name)
-        // console.log("Album: " + data.tracks.items[0].album.name);
-        // console.log("Spotify Link: " + data.tracks.items[0].external_urls.spotify)
 
+      if(songList.length === 0 || songList.length == null){
+          console.log("Sorry could not find your song.")
+      }
+      else if (songList.length === 1){
+          console.log("Returning 1 song!");
+      }
+      else{
+      console.log("Returning " + songList.length + " Songs!")
+    }
+      console.log("-----------------------------------------------------------------------------")
 
-
+      for(var i = 0; i < songList.length; i++){
+        console.log("Artist: " + songList[i].artists[0].name);
+        console.log("Name: " + songList[i].name)
+        console.log("Album: " + songList[i].album.name);
+        console.log("Spotify Link: " + songList[i].external_urls.spotify)
+        console.log("-----------------------------------------------------------------------------")
+      }
       });
-
-     
-
-    // spotify
-    // .request('https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx')
-    // .then(function(data) {
-    //   console.log(data); 
-    // })
-    // .catch(function(err) {
-    //   console.error('Error occurred: ' + err); 
-    // });
-
 }
