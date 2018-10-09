@@ -73,24 +73,33 @@ var concertThis = function(seach) {
 
 
 var spotifyThis = function(search) {
+
+    console.log(search)
     if(search == null){
         noSpecialCharSearch = 'the sign' 
     }
     else{
         var noSpecialCharSearch = search.split(/[.\-_]/).join(" ").toLowerCase();
     }
-    // console.log(noSpecialCharSearch);
     var songList = [];
 
     spotify.search({ type: 'track', query: noSpecialCharSearch }, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
         }
-    //   console.log(data);
       for(var i = 0; i < data.tracks.items.length; i++){
-          var songLowercase = data.tracks.items[i].name.toLowerCase();
-    
-            if(noSpecialCharSearch === songLowercase)
+          var songLowerCase = data.tracks.items[i].name.toLowerCase();
+          //take json object, and turn it into a string (I thought it was one before);
+
+
+          songLowerCase = JSON.stringify(songLowerCase);
+
+          console.log(typeof songLowerCase)
+                console.log("lower case song: " + songLowerCase);
+                console.log("split searched song: " + noSpecialCharSearch);
+
+
+            if(noSpecialCharSearch === songLowerCase)
             {
                 songList.push(data.tracks.items[i]);
             }
@@ -126,13 +135,15 @@ var doThis = function(){
 			return;
 		} else {
 			// Split out the command name and the parameter name
-			var cmdString = data.split(',');
-			var command = cmdString[0].trim();
-			var search = cmdString[1].trim();
+			var inputString = data.split(',');
+			var command = inputString[0];
+			var search = inputString[1];
 
             console.log(command);
 
             console.log(search);
+
+
 
 			  switch(command) {
 				case 'concert-this':
@@ -148,8 +159,11 @@ var doThis = function(){
                     break;
         }
     }
+    
 	});
 }
+
+search = JSON.stringify(search);
 
 
 
