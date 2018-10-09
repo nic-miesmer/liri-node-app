@@ -16,7 +16,7 @@ var request = require("request");
 
 var inputString = process.argv;
 var command = process.argv[2];
-var search = process.argv[3];
+var search = process.argv.slice(3).join(" ");
 
 
 var movieThis = function(search){
