@@ -16,15 +16,17 @@ var request = require("request");
 
 var inputString = process.argv;
 var command = process.argv[2];
-var search = process.argv.slice(3).join(" ");
+// var search = process.argv.slice(3).join(" ");
+var search = process.argv[3];
+
 
 
 var movieThis = function(search){
-    if(command === "movie-this"){
 
         if(search == null){
             search = "Mr.+Nobody";
         }
+
     
     // We then run the request module on a URL with a JSON
     request("http://www.omdbapi.com/?t="+ search +"&y=&plot=short&apikey=trilogy&tomatoes=true", function(error, response, body) {
@@ -46,19 +48,21 @@ var movieThis = function(search){
     });
 
 }
-}
 
-var concertThis = function(seach) {
+var concertThis = function(search) {
 
-    if(command === "concert-this") {
+    if(search == null){
+        var search = "Metallica";
+    }
 
+    console.log(search);
         // We then run the request module on a URL with a JSON
     request("https://rest.bandsintown.com/artists/" + search + "/events?app_id=codingbootcamp", function(error, response, body) {
     
         // If there were no errors and the response code was 200 (i.e. the request was successful)...
         if (!error && response.statusCode === 200) {
-      
-            var bandInfoJson = JSON.parse(body)
+            var bandInfoJson = JSON.parse(body);
+
             for( var i = 0; i < bandInfoJson.length; i++){
                 // console.log(bandInfoJson[i])
                 console.log(bandInfoJson[i].venue.name)
@@ -67,14 +71,14 @@ var concertThis = function(seach) {
                 console.log("__________________________________")
             }
         }
+        else{
+            console.log(error);
+        }
       });
     }
-}
-
 
 var spotifyThis = function(search) {
 
-    console.log(search)
     if(search == null){
         noSpecialCharSearch = 'the sign' 
     }
@@ -93,10 +97,6 @@ var spotifyThis = function(search) {
 
 
           songLowerCase = JSON.stringify(songLowerCase);
-
-          console.log(typeof songLowerCase)
-                console.log("lower case song: " + songLowerCase);
-                console.log("split searched song: " + noSpecialCharSearch);
 
 
             if(noSpecialCharSearch === songLowerCase)
@@ -164,9 +164,6 @@ var doThis = function(){
 }
 
 search = JSON.stringify(search);
-
-
-
 
   switch(command) {
 				case 'concert-this':
