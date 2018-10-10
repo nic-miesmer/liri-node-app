@@ -9,6 +9,8 @@ concert-this: Searches Bands in Town API by Band, and returns upcoming concerts.
 do-what-it-says: Reads from the random.txt file, and uses the command and search from there.
 
 
-
+Search:
+have to search with special characters between 
+Example:  the+matrix
 
 
